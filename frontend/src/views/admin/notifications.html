@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Correos no entregados · 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/admin.css') }}">{% endblock %}
+{% block content %}
+<section class="admin-shell">
+  <header class="admin-titlebar"><div><p class="admin-kicker">Bandeja de incidencias</p><h1>Correos no entregados</h1><p>Mensajes que agotaron tres intentos y requieren seguimiento manual.</p></div><div class="admin-nav"><a href="/admin/cotizaciones">Cotizaciones</a><a href="/admin/materiales">Materiales</a></div></header>
+  {% if notifications %}<div class="admin-card table-wrap"><table><thead><tr><th>Folio</th><th>Destinatario</th><th>Tipo</th><th>Intentos</th><th>Último error</th></tr></thead><tbody>{% for item in notifications %}<tr><td>{{ item.payload.get('reference', 'Sin folio') }}</td><td>{{ item.recipient }}</td><td>{{ item.template_key }}</td><td>{{ item.attempt_count }}</td><td>{{ item.last_error }}</td></tr>{% endfor %}</tbody></table></div>
+  {% else %}<div class="admin-card empty-state"><span aria-hidden="true">✓</span><h2>Todo entregado</h2><p>No hay correos que hayan agotado sus intentos.</p><a class="button button-primary" href="/admin/cotizaciones">Volver al panel</a></div>{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% macro render_status(message, extra_class='') -%}
+  {% if message %}
+    {% set state = message.state.value if message.state.value is defined else message.state %}
+    <div class="status status-{{ state }} {{ extra_class }}" role="{{ 'alert' if state == 'error' else 'status' }}" aria-live="{{ 'assertive' if state == 'error' else 'polite' }}">
+      <span class="status-icon" aria-hidden="true">
+        {% if state == 'success' %}✓{% elif state == 'error' %}!{% elif state == 'loading' %}<i class="status-spinner"></i>{% elif state == 'empty' %}—{% else %}i{% endif %}
+      </span>
+      <div>
+        <h3>{{ message.title }}</h3>
+        <p>{{ message.detail }}</p>
+        {% if message.recovery_action %}<small class="status-action">{{ message.recovery_action }}</small>{% endif %}
+      </div>
+    </div>
+  {% endif %}
+{%- endmacro %}

@@ -1,0 +1,41 @@
+.status {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-block: 1rem;
+  padding: 1.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.status h3,
+.status p { margin: 0; }
+.status p { color: var(--slate); }
+.status-action { display: block; margin-top: .45rem; color: var(--slate); }
+.status-icon {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  color: var(--white);
+  background: var(--blue);
+  border-radius: 50%;
+  font-weight: 800;
+}
+.status-error { border-color: rgb(180 35 24 / 35%); }
+.status-error .status-icon { background: var(--error); }
+.status-success { border-color: rgb(21 128 61 / 30%); }
+.status-success .status-icon { background: #15803d; }
+.status-empty .status-icon { background: var(--slate); }
+.status-loading .status-icon { background: var(--navy); }
+.status-spinner { width: .85rem; height: .85rem; border: 2px solid rgb(255 255 255 / 45%); border-top-color: var(--white); border-radius: 50%; animation: status-spin .75s linear infinite; }
+
+.upload-list li::before { width: 1.1rem; color: var(--slate); font-weight: 850; text-align: center; content: "…"; }
+.upload-list li[data-status="valid"]::before { color: #15803d; content: "✓"; }
+.upload-list li[data-status="invalid"]::before,
+.upload-list li[data-status="error"]::before { color: var(--error); content: "!"; }
+
+@keyframes status-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .status-spinner { animation: none; border-top-color: transparent; } }

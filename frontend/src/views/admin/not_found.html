@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Registro no encontrado · 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/admin.css') }}">{% endblock %}
+{% block content %}<section class="admin-shell"><div class="admin-card empty-state"><span aria-hidden="true">⌁</span><h1>Registro no encontrado</h1><p>El identificador no corresponde a una solicitud o cliente disponible.</p><a class="button button-primary" href="/admin/cotizaciones">Volver a cotizaciones</a></div></section>{% endblock %}

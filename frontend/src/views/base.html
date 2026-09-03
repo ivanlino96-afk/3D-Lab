@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Servicios de impresión 3D y manufactura aditiva de 3D-Lab.">
+    <title>{% block title %}3D-Lab{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/status.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/responsive.css') }}">
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="3D-Lab, inicio">3D-Lab</a>
+      <nav aria-label="Navegación principal">
+        <a href="/">Servicios</a>
+        <a href="/materiales">Materiales</a>
+        <a class="button button-primary" href="/cotizaciones/nueva">Solicitar cotización</a>
+      </nav>
+    </header>
+    <main id="contenido" tabindex="-1">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+      <p>3D-Lab · Manufactura aditiva con acompañamiento técnico.</p>
+    </footer>
+    <script src="{{ url_for('static', path='scripts/app.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

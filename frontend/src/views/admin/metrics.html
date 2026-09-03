@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% from "components/status.html" import render_status %}
+{% block title %}Indicadores comerciales · 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/admin.css') }}">{% endblock %}
+{% block content %}
+<section class="admin-shell">
+  <header class="admin-titlebar"><div><p class="admin-kicker">Pulso comercial</p><h1>Indicadores</h1><p>Resultados derivados del historial real de solicitudes.</p></div><div class="admin-nav"><a href="/admin/cotizaciones">Cotizaciones</a><a href="/admin/materiales">Materiales</a><a href="/admin/notificaciones">Correos</a></div></header>
+  <form class="admin-card period-filter" method="get"><label>Desde<input type="date" name="date_from" value="{{ date_from }}" required></label><label>Hasta<input type="date" name="date_to" value="{{ date_to }}" required></label><button class="button button-primary" type="submit">Calcular periodo</button></form>
+  {{ render_status(message) }}
+  {% if metrics %}<div class="metrics-grid"><article class="admin-card metric-card"><small>Solicitudes aceptadas</small><strong>{{ metrics.accepted }}</strong></article><article class="admin-card metric-card"><small>Cotizaciones enviadas</small><strong>{{ metrics.quoted }}</strong></article><article class="admin-card metric-card"><small>Ventas concretadas</small><strong>{{ metrics.effective_sales }}</strong></article><article class="admin-card metric-card metric-primary"><small>Conversión efectiva</small><strong>{{ metrics.conversion_rate }}%</strong></article></div>
+  <article class="admin-card"><p class="admin-kicker">Tiempo de recorrido</p><h2>Promedio en cada estado</h2>{% if metrics.average_hours_by_status %}<div class="duration-bars">{% for status, hours in metrics.average_hours_by_status.items() %}<div><span>{{ status.label }}</span><div><i style="--duration: {{ [hours, 240]|min / 240 }}"></i></div><strong>{{ hours }} h</strong></div>{% endfor %}</div>{% else %}<p>Aún no hay cambios de estado suficientes para calcular tiempos.</p>{% endif %}</article>{% endif %}
+</section>
+{% endblock %}

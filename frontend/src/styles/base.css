@@ -1,0 +1,111 @@
+:root {
+  --navy: #0b192c;
+  --navy-raised: #15253f;
+  --slate: #64748b;
+  --slate-light: #94a3b8;
+  --blue: #0284c7;
+  --blue-hover: #0369a1;
+  --white: #ffffff;
+  --surface: #f8fafc;
+  --border: #e2e8f0;
+  --error: #b42318;
+  --shadow: 0 20px 60px rgb(11 25 44 / 8%);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--navy);
+  background: var(--white);
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; line-height: 1.6; }
+a { color: inherit; }
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10;
+  padding: 0.65rem 1rem;
+  background: var(--white);
+  border-radius: 999px;
+  transform: translateY(-180%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1.25rem, 5vw, 5rem);
+  background: rgb(255 255 255 / 88%);
+  border-bottom: 1px solid rgb(226 232 240 / 70%);
+  backdrop-filter: blur(18px);
+}
+.brand { font-weight: 800; font-size: 1.2rem; text-decoration: none; letter-spacing: -0.04em; }
+nav { display: flex; align-items: center; gap: clamp(0.8rem, 2vw, 2rem); }
+nav a { text-decoration: none; font-size: 0.92rem; font-weight: 650; }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.78rem 1.35rem;
+  color: var(--white);
+  border-radius: 999px;
+  font-weight: 750;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgb(2 132 199 / 18%);
+  transition: transform 160ms ease, background 160ms ease;
+}
+.button:hover { transform: translateY(-1px); }
+.button:active { transform: scale(0.97); }
+.button-primary { background: var(--blue); }
+.button-primary:hover { background: var(--blue-hover); }
+.button-secondary { background: var(--navy); border-radius: 0.8rem; }
+.button-secondary:hover { background: var(--navy-raised); }
+
+.hero {
+  display: grid;
+  place-items: center;
+  min-height: 72vh;
+  padding: 7rem 1.5rem;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 5%, rgb(2 132 199 / 12%), transparent 35%),
+    linear-gradient(180deg, var(--white), var(--surface));
+}
+.hero h1 { max-width: 920px; margin: 0; font-size: clamp(3rem, 8vw, 7.3rem); line-height: 0.94; letter-spacing: -0.075em; }
+.hero-copy { max-width: 650px; margin: 1.7rem 0 2rem; color: var(--slate); font-size: clamp(1.05rem, 2vw, 1.35rem); }
+.eyebrow { margin: 0 0 1rem; color: var(--blue); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.13em; text-transform: uppercase; }
+
+.section { max-width: 1240px; margin: 0 auto; padding: 7rem clamp(1.25rem, 5vw, 3rem); }
+.section-heading { max-width: 680px; margin-bottom: 3rem; }
+.section h2, .closing-cta h2 { margin: 0; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1; letter-spacing: -0.055em; }
+.service-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.service-card { padding: clamp(1.5rem, 4vw, 2.6rem); background: var(--surface); border: 1px solid var(--border); border-radius: 1.5rem; }
+.service-card h3 { margin: 0.4rem 0; font-size: 1.65rem; letter-spacing: -0.035em; }
+.service-card p { color: var(--slate); }
+.service-number { margin: 0; color: var(--blue) !important; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; }
+.service-summary { color: var(--navy) !important; font-weight: 700; }
+.text-link { color: var(--blue); font-weight: 750; text-decoration: none; }
+
+.closing-cta { margin: 2rem; padding: clamp(3rem, 8vw, 7rem); color: var(--white); text-align: center; background: var(--navy); border-radius: 2rem; }
+.closing-cta p { margin: 1.3rem auto 2rem; color: var(--slate-light); }
+.site-footer { padding: 3rem 1.25rem; color: var(--slate); text-align: center; }
+
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+
+@media (max-width: 720px) {
+  .site-header { align-items: flex-start; }
+  .service-grid { grid-template-columns: 1fr; }
+  .closing-cta { margin: 0.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}

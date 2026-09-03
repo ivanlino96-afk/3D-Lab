@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% from "components/status.html" import render_status %}
+
+{% block title %}Solicitar cotización | 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/quotes.css') }}">{% endblock %}
+
+{% block content %}
+  <section class="quote-hero">
+    <p class="eyebrow">Cotización técnica</p>
+    <h1>Comparte la pieza. Nosotros revisamos cómo fabricarla.</h1>
+    <p>No necesitas una cuenta. Tus archivos permanecen privados y se eliminan 30 días después de cargarlos.</p>
+  </section>
+
+  <section class="quote-layout">
+    <ol class="quote-steps" aria-label="Pasos de la solicitud">
+      <li><span>1</span><strong>Datos</strong><small>Cómo contactarte</small></li>
+      <li><span>2</span><strong>Archivos</strong><small>Hasta 20 STL y 500 MB</small></li>
+      <li><span>3</span><strong>Contexto</strong><small>Qué debe lograr la pieza</small></li>
+    </ol>
+
+    {{ render_status(message, 'quote-message') }}
+
+    {% if upload_session %}
+      <form class="quote-form" id="quote-form" method="post" action="/cotizaciones" novalidate>
+        <input type="hidden" name="submission_token" id="submission-token" value="{{ upload_session.token }}">
+        {% if selected_material %}
+          <input type="hidden" name="material" value="{{ selected_material.slug }}">
+          <div class="selected-material">
+            <div><small>Material seleccionado</small><strong>{{ selected_material.name }}</strong></div>
+            <a href="/materiales">Cambiar</a>
+          </div>
+        {% endif %}
+
+        <fieldset class="form-section">
+          <legend><span>01</span> Datos de contacto</legend>
+          <div class="field-grid">
+            <label>Nombre completo<input name="name" autocomplete="name" minlength="2" maxlength="100" required><small>Entre 2 y 100 caracteres.</small></label>
+            <label>Correo electrónico<input name="email" type="email" autocomplete="email" maxlength="254" required><small>Enviaremos aquí tu folio.</small></label>
+            <label>Teléfono<input name="phone" type="tel" autocomplete="tel" pattern="\+?[0-9]{10,15}" required><small>De 10 a 15 dígitos; puedes iniciar con +.</small></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend><span>02</span> Modelos para evaluar</legend>
+          <label class="build-plate" for="stl-files" id="build-plate">
+            <span class="build-plate-lines" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <strong>Coloca tus archivos en la plataforma</strong>
+            <span>Arrástralos aquí o elige hasta 20 archivos STL</span>
+            <input id="stl-files" type="file" accept=".stl,model/stl" multiple>
+          </label>
+          <div class="upload-summary" aria-live="polite">
+            <span id="file-count">0 de 20 archivos</span>
+            <span id="total-size">0 MB de 500 MB</span>
+          </div>
+          <ul class="upload-list" id="upload-list">
+            {% for item in upload_session.items %}
+              {% if item.status.value != "removed" %}
+                <li data-id="{{ item.id }}" data-size="{{ item.size_bytes }}" data-status="{{ item.status.value }}">
+                  <div><strong>{{ item.original_name }}</strong><small>{{ item.size_bytes }} bytes · {{ item.status.value }}</small></div>
+                  <button type="button" class="remove-file">Retirar</button>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+          <p class="field-error" id="upload-error" role="alert" hidden></p>
+        </fieldset>
+
+        <fieldset class="form-section">
+          <legend><span>03</span> Contexto de la pieza</legend>
+          <label>Comentarios o requerimientos especiales<textarea name="comments" rows="5" maxlength="3000" placeholder="Uso de la pieza, carga, temperatura, acabado o fecha requerida."></textarea><small>No incluyas contraseñas ni información sensible.</small></label>
+        </fieldset>
+
+        <div class="submit-zone">
+          <div><strong>Revisa antes de enviar</strong><p>Debes completar tus datos y tener al menos un STL válido.</p></div>
+          <button class="button button-primary" id="submit-quote" type="submit" disabled>Enviar solicitud</button>
+        </div>
+      </form>
+    {% endif %}
+  </section>
+{% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', path='scripts/quote-upload.js') }}" defer></script>{% endblock %}

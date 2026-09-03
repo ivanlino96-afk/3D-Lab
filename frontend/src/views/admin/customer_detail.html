@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "components/status.html" import render_status %}
+{% block title %}{{ customer.current_name }} · 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/admin.css') }}">{% endblock %}
+{% block content %}
+<section class="admin-shell">
+  <p><a class="back-link" href="/admin/cotizaciones">← Todas las cotizaciones</a></p>
+  <header class="admin-titlebar"><div><p class="admin-kicker">Historial del cliente</p><h1>{{ customer.current_name }}</h1><p>{{ customer.original_email }} · {{ customer.current_phone }}</p></div></header>
+  {{ render_status(message) }}
+  <div class="detail-grid">
+    <article class="admin-card"><p class="admin-kicker">Solicitudes</p><h2>{{ quotes|length }} cotización{% if quotes|length != 1 %}es{% endif %}</h2><ul class="record-list">{% for quote in quotes %}<li><a href="/admin/cotizaciones/{{ quote.id }}"><strong>{{ quote.public_reference }}</strong><small>{{ quote.created_at.strftime('%d/%m/%Y') }} · {{ quote.status.label }} · {{ 'STL disponible' if quote.has_available_files else 'Sin STL vigente' }}</small></a></li>{% else %}<li>No hay solicitudes registradas.</li>{% endfor %}</ul></article>
+    <article class="admin-card"><p class="admin-kicker">Privacidad</p><h2>Registrar petición de datos</h2><form class="stack-form" method="post" action="/admin/clientes/{{ customer.id }}/solicitudes-datos"><label>Tipo<select name="request_type"><option value="access">Acceso</option><option value="correction">Corrección</option><option value="deletion">Eliminación</option></select></label><label>Correo desde el que se recibió<input type="email" name="requested_email" value="{{ customer.original_email }}" required></label><button class="button button-secondary" type="submit">Registrar petición</button></form></article>
+  </div>
+  <article class="admin-card"><p class="admin-kicker">Verificación</p><h2>Peticiones registradas</h2><ul class="record-list">{% for item in data_requests %}<li><div><strong>{{ item.request_type|capitalize }}</strong><small>{{ item.requested_email }} · {{ item.verification_status }}</small></div>{% if item.verification_status == 'pending' %}<form class="inline-verify" method="post" action="/admin/solicitudes-datos/{{ item.id }}/completar"><input type="email" name="verified_email" placeholder="Correo verificado" required><input name="resolution_notes" placeholder="Resultado aplicado" required><button class="button button-primary" type="submit">Verificar y completar</button></form>{% endif %}</li>{% else %}<li>No hay peticiones de datos.</li>{% endfor %}</ul></article>
+</section>
+{% endblock %}

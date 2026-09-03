@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Solicitud recibida | 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/quotes.css') }}">{% endblock %}
+
+{% block content %}
+  <section class="confirmation">
+    <div class="confirmation-mark" aria-hidden="true">✓</div>
+    <p class="eyebrow">Solicitud recibida</p>
+    <h1>Ya tenemos tus archivos.</h1>
+    <p>Hemos recibido correctamente tus archivos y la información de tu proyecto. Nuestro equipo técnico revisará tu solicitud y un asesor se pondrá en contacto contigo para proporcionar una cotización personalizada.</p>
+    <div class="folio"><small>Tu folio de seguimiento</small><strong>{{ quote.public_reference }}</strong></div>
+    <p class="confirmation-note">Enviaremos este folio a {{ quote.contact_email }}. Consérvalo para cualquier seguimiento.</p>
+    <a class="button button-secondary" href="/">Volver al inicio</a>
+  </section>
+{% endblock %}
+

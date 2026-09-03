@@ -1,0 +1,3 @@
+Nueva solicitud {reference}
+
+Se recibió la solicitud {reference}. Ingresa al panel para revisar sus archivos.

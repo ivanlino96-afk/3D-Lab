@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "components/status.html" import render_status %}
+{% block title %}Acceso administrativo · 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/admin.css') }}">{% endblock %}
+{% block content %}
+<section class="admin-login-shell">
+  <div class="login-intro">
+    <p class="eyebrow">Operación 3D-Lab</p>
+    <h1>Del archivo a la pieza, sin perder el hilo.</h1>
+    <p>Consulta solicitudes, archivos vigentes y avances desde un espacio privado.</p>
+  </div>
+  <form class="admin-card login-card" method="post" action="/admin/login">
+    <div>
+      <p class="admin-kicker">Cuenta única</p>
+      <h2>Iniciar sesión</h2>
+    </div>
+    {{ render_status(message) }}
+    <label>Usuario<input name="username" autocomplete="username" required autofocus></label>
+    <label>Contraseña<input type="password" name="password" autocomplete="current-password" required></label>
+    <button class="button button-primary" type="submit">Iniciar sesión</button>
+  </form>
+</section>
+{% endblock %}

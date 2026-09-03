@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "components/status.html" import render_status %}
+{% block title %}Materiales · Administración 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/admin.css') }}">{% endblock %}
+{% block content %}
+<section class="admin-shell material-admin-shell">
+  <header class="admin-titlebar">
+    <div><p class="admin-kicker">Biblioteca técnica</p><h1>Materiales</h1><p>Publica únicamente información verificable y vigente.</p></div>
+    <div class="admin-nav"><a href="/admin/cotizaciones">Cotizaciones</a><a class="button button-primary" href="/admin/materiales/nuevo">Nuevo material</a></div>
+  </header>
+  {{ render_status(message) }}
+  {% if materials %}
+  <div class="material-admin-grid">
+    {% for material in materials %}<article class="admin-card material-admin-card">
+      <div class="material-specimen" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="material-card-content"><div class="card-heading"><div><p class="admin-kicker">Orden {{ material.display_order }}</p><h2>{{ material.name }}</h2></div><span class="state-pill">{{ material.status.label }}</span></div>
+      <p>{{ material.description or 'Descripción pendiente' }}</p><dl><dt>Identificador</dt><dd>{{ material.slug }}</dd><dt>Costo</dt><dd>{{ material.cost_level.label }}</dd><dt>Disponibilidad</dt><dd>{{ 'Disponible' if material.available else 'No disponible' }}</dd></dl>
+      <div class="material-actions"><a class="text-link" href="/admin/materiales/{{ material.id }}/editar">Editar ficha</a><form method="post" action="/admin/materiales/{{ material.id }}/estado"><select name="status" aria-label="Nuevo estado"><option value="draft">Borrador</option><option value="published">Publicado</option><option value="archived">Archivado</option></select><button class="admin-text-button" type="submit">Cambiar</button></form><form method="post" action="/admin/materiales/{{ material.id }}/orden"><input type="number" name="display_order" min="1" value="{{ material.display_order }}" aria-label="Orden"><button class="admin-text-button" type="submit">Ordenar</button></form></div></div>
+    </article>{% endfor %}
+  </div>
+  {% else %}<div class="admin-card empty-state"><span aria-hidden="true">⌁</span><h2>La biblioteca está vacía</h2><p>Crea el primer material como borrador y complétalo antes de publicarlo.</p><a class="button button-primary" href="/admin/materiales/nuevo">Crear material</a></div>{% endif %}
+  <div class="taxonomy-grid">
+    <form class="admin-card stack-form" method="post" action="/admin/materiales/aplicaciones"><p class="admin-kicker">Criterios de uso</p><h2>Aplicaciones</h2><label>Identificador<input name="slug" placeholder="uso-medico" required></label><label>Nombre<input name="name" placeholder="Uso médico" required></label><label>Factores<textarea name="factors" rows="3" required></textarea></label><label>Orden<input type="number" name="display_order" min="1" required></label><button class="button button-secondary" type="submit">Guardar aplicación</button><ul class="compact-list">{% for item in applications %}<li>{{ item.display_order }} · {{ item.name }} <small>{{ item.slug }}</small></li>{% endfor %}</ul></form>
+    <form class="admin-card stack-form" method="post" action="/admin/materiales/propiedades"><p class="admin-kicker">Datos comparables</p><h2>Propiedades</h2><label>Identificador<input name="slug" placeholder="dureza" required></label><label>Nombre<input name="name" placeholder="Dureza" required></label><label>Unidad<input name="unit" placeholder="Shore D" required></label><label>Orden<input type="number" name="display_order" min="1" required></label><button class="button button-secondary" type="submit">Guardar propiedad</button><ul class="compact-list">{% for item in property_definitions %}<li>{{ item.display_order }} · {{ item.name }} <small>{{ item.unit }}</small></li>{% endfor %}</ul></form>
+  </div>
+</section>
+{% endblock %}

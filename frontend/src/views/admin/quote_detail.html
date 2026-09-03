@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "components/status.html" import render_status %}
+{% block title %}{{ quote.public_reference }} · 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/admin.css') }}">{% endblock %}
+{% block content %}
+<section class="admin-shell">
+  <p><a class="back-link" href="/admin/cotizaciones">← Todas las cotizaciones</a></p>
+  <header class="admin-titlebar quote-heading"><div><p class="admin-kicker">Solicitud</p><h1>{{ quote.public_reference }}</h1><p>Recibida {{ quote.created_at.strftime('%d/%m/%Y a las %H:%M') }}</p></div><span class="state-pill state-{{ quote.status.value }}">{{ quote.status.label }}</span></header>
+  {{ render_status(message) }}
+  <div class="detail-grid">
+    <article class="admin-card"><p class="admin-kicker">Contacto</p><h2>{{ quote.contact_name }}</h2><dl><dt>Correo</dt><dd>{{ quote.contact_email }}</dd><dt>Teléfono</dt><dd>{{ quote.contact_phone }}</dd><dt>Material</dt><dd>{{ quote.selected_material_name or 'Sin selección previa' }}</dd><dt>Comentarios</dt><dd>{{ quote.comments or 'Sin comentarios adicionales' }}</dd></dl><a class="text-link" href="/admin/clientes/{{ quote.customer_id }}">Ver historial del cliente →</a></article>
+    <article class="admin-card"><p class="admin-kicker">Siguiente etapa</p><h2>Actualizar estado</h2>
+      {% if quote.status.value in ['closed', 'canceled'] %}<p>Este estado es terminal y no admite cambios.</p>
+      {% else %}<form class="stack-form" method="post" action="/admin/cotizaciones/{{ quote.id }}/estado"><label>Nuevo estado<select name="status" required>
+        {% if quote.status.value == 'open' %}<option value="quote_sent">Cotización enviada</option>{% endif %}
+        {% if quote.status.value == 'quote_sent' %}<option value="in_progress">En proceso</option>{% endif %}
+        {% if quote.status.value == 'in_progress' %}<option value="closed">Cerrada</option>{% endif %}
+        <option value="canceled">Cancelada</option></select></label><label>Nota opcional<textarea name="reason" rows="3"></textarea></label><button class="button button-secondary" type="submit">Guardar cambio</button></form>{% endif %}
+    </article>
+  </div>
+  <article class="admin-card"><div class="card-heading"><div><p class="admin-kicker">Modelos recibidos</p><h2>Archivos STL</h2></div><span>{{ quote.files|length }}</span></div>
+    <ul class="file-list">{% for file in quote.files %}<li><div><strong>{{ file.original_name }}</strong><small>{{ (file.size_bytes / 1048576)|round(2) }} MB · Cargado {{ file.uploaded_at.strftime('%d/%m/%Y') }}</small></div>{% if file.status == 'available' %}<a class="text-link" href="/admin/archivos/{{ file.id }}">Descargar</a>{% else %}<span class="expired-label">Archivo expirado</span>{% endif %}</li>{% else %}<li>No hay archivos asociados.</li>{% endfor %}</ul>
+  </article>
+  <article class="admin-card history-card"><p class="admin-kicker">Capas de seguimiento</p><h2>Historial de estados</h2><ol class="layer-timeline"><li><span></span><div><strong>Abierta</strong><small>{{ quote.created_at.strftime('%d/%m/%Y %H:%M') }} · Solicitud recibida</small></div></li>{% for event in quote.history %}<li><span></span><div><strong>{{ event.new_status.label }}</strong><small>{{ event.occurred_at.strftime('%d/%m/%Y %H:%M') }}{% if event.reason %} · {{ event.reason }}{% endif %}</small></div></li>{% endfor %}</ol></article>
+</section>
+{% endblock %}

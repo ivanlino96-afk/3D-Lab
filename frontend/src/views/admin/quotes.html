@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "components/status.html" import render_status %}
+{% block title %}Cotizaciones · Administración 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/admin.css') }}">{% endblock %}
+{% block content %}
+<section class="admin-shell">
+  <header class="admin-titlebar">
+    <div><p class="admin-kicker">Cola de producción</p><h1>Cotizaciones</h1><p>{{ page.total }} solicitud{% if page.total != 1 %}es{% endif %} encontrada{% if page.total != 1 %}s{% endif %}</p></div>
+    <div class="admin-nav"><a href="/admin/materiales">Materiales</a><a href="/admin/notificaciones">Correos</a><a href="/admin/indicadores">Indicadores</a><form method="post" action="/admin/logout"><button class="admin-text-button" type="submit">Cerrar sesión</button></form></div>
+  </header>
+  {{ render_status(message) }}
+  <form class="admin-card filter-panel" method="get" action="/admin/cotizaciones">
+    <label class="search-field">Buscar<input type="search" name="q" value="{{ filters.q }}" placeholder="Cliente, correo o folio"></label>
+    <fieldset><legend>Estados</legend><div class="status-filters">
+      {% for status in statuses %}<label><input type="checkbox" name="status" value="{{ status.value }}" {% if status.value in selected_statuses %}checked{% endif %}>{{ status.label }}</label>{% endfor %}
+    </div></fieldset>
+    <label>Desde<input type="date" name="date_from" value="{{ filters.date_from }}"></label>
+    <label>Hasta<input type="date" name="date_to" value="{{ filters.date_to }}"></label>
+    <div class="filter-actions"><button class="button button-primary" type="submit">Aplicar filtros</button><a href="/admin/cotizaciones">Limpiar filtros</a></div>
+  </form>
+  {% if page.items %}
+  <div class="admin-card table-wrap"><table>
+    <thead><tr><th>Folio</th><th>Cliente</th><th>Estado</th><th>Recibida</th><th>Archivos</th></tr></thead>
+    <tbody>{% for quote in page.items %}<tr>
+      <td><a class="record-link" href="/admin/cotizaciones/{{ quote.id }}">{{ quote.public_reference }}</a></td>
+      <td><strong>{{ quote.customer_name }}</strong><small>{{ quote.customer_email }}</small></td>
+      <td><span class="state-pill state-{{ quote.status.value }}">{{ quote.status.label }}</span></td>
+      <td>{{ quote.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+      <td>{{ 'Disponibles' if quote.has_available_files else 'No disponibles' }}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  <nav class="pager" aria-label="Paginación">
+    {% if page.page > 1 %}<form method="get"><input type="hidden" name="q" value="{{ filters.q }}">{% for item in selected_statuses %}<input type="hidden" name="status" value="{{ item }}">{% endfor %}<input type="hidden" name="date_from" value="{{ filters.date_from }}"><input type="hidden" name="date_to" value="{{ filters.date_to }}"><button name="page" value="{{ page.page - 1 }}">Anterior</button></form>{% endif %}
+    <span>Página {{ page.page }} de {{ page.total_pages }}</span>
+    {% if page.page < page.total_pages %}<form method="get"><input type="hidden" name="q" value="{{ filters.q }}">{% for item in selected_statuses %}<input type="hidden" name="status" value="{{ item }}">{% endfor %}<input type="hidden" name="date_from" value="{{ filters.date_from }}"><input type="hidden" name="date_to" value="{{ filters.date_to }}"><button name="page" value="{{ page.page + 1 }}">Siguiente</button></form>{% endif %}
+  </nav>
+  {% else %}
+  <div class="admin-card empty-state"><span aria-hidden="true">⌁</span><h2>Sin coincidencias</h2><p>Ajusta los criterios o limpia los filtros para volver a ver todas las solicitudes.</p><a class="button button-primary" href="/admin/cotizaciones">Limpiar filtros</a></div>
+  {% endif %}
+</section>
+{% endblock %}

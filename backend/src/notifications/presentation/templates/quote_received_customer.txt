@@ -1,0 +1,5 @@
+Recibimos tu solicitud {reference}
+
+Hemos recibido correctamente tus archivos y la información de tu proyecto.
+Tu folio de seguimiento es {reference}.
+Nuestro equipo técnico revisará la solicitud y se pondrá en contacto contigo.

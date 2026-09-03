@@ -1,0 +1,3 @@
+Actualización de tu solicitud {reference}
+
+La solicitud {reference} cambió al estado: {status_label}.

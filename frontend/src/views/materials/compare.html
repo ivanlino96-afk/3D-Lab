@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% from "components/status.html" import render_status %}
+
+{% block title %}Comparar materiales | 3D-Lab{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/materials.css') }}">{% endblock %}
+
+{% block content %}
+  <section class="detail-hero">
+    <p class="eyebrow">Comparación técnica</p>
+    <h1>Mismas propiedades. Una decisión más clara.</h1>
+    <a class="text-link" href="/materiales">← Volver a la guía</a>
+  </section>
+  <section class="section">
+    {% if message %}
+      {{ render_status(message) }}
+    {% else %}
+      <div class="comparison-scroll" tabindex="0" aria-label="Tabla comparativa de materiales">
+        <table class="comparison-table">
+          <thead><tr><th scope="col">Propiedad</th>{% for material in comparison.materials %}<th scope="col">{{ material.name }}</th>{% endfor %}</tr></thead>
+          <tbody>
+            <tr><th scope="row">Disponibilidad</th>{% for material in comparison.materials %}<td>{{ "Disponible" if material.available else "Bajo pedido" }}</td>{% endfor %}</tr>
+            <tr><th scope="row">Costo relativo</th>{% for material in comparison.materials %}<td>{{ material.cost_level.label }}</td>{% endfor %}</tr>
+            {% for row in comparison.rows %}
+              <tr><th scope="row">{{ row.definition.name }} <small>{{ row.definition.unit }}</small></th>{% for material in comparison.materials %}<td>{{ row.values[loop.index0] }}</td>{% endfor %}</tr>
+            {% endfor %}
+          </tbody>
+          <tfoot><tr><th scope="row">Cotización</th>{% for material in comparison.materials %}<td><a class="button button-secondary" href="/materiales/{{ material.slug }}/cotizar">Elegir {{ material.name }}</a></td>{% endfor %}</tr></tfoot>
+        </table>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}
