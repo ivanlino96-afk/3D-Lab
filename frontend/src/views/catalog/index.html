@@ -2,15 +2,23 @@
 {% from "components/status.html" import render_status %}
 
 {% block title %}Servicios de impresión 3D | 3D-Lab{% endblock %}
+{% block body_class %}home-page{% endblock %}
 
 {% block content %}
   <section class="hero" aria-labelledby="hero-title">
-    <p class="eyebrow">Manufactura aditiva, sin complicaciones</p>
-    <h1 id="hero-title">De una idea digital a una pieza que funciona.</h1>
-    <p class="hero-copy">
-      Prototipos, refacciones y componentes personalizados evaluados por especialistas.
-    </p>
-    <a class="button button-primary" href="/cotizaciones/nueva">Cotizar mis piezas</a>
+    <div class="hero-content">
+      <p class="eyebrow">Manufactura aditiva, sin complicaciones</p>
+      <h1 id="hero-title">De una idea digital a una pieza que funciona.</h1>
+      <p class="hero-copy">
+        Prototipos, refacciones y componentes personalizados evaluados por especialistas.
+      </p>
+      <a class="button button-primary" href="/cotizaciones/nueva">Cotizar mis piezas</a>
+    </div>
+    <figure class="hero-visual">
+      <img src="{{ url_for('static', path='Resources/impresora-bambu-lab-hero-v2.png') }}"
+           alt="Impresora Bambu Lab fabricando un componente mecánico en color cian"
+           width="1776" height="887" fetchpriority="high">
+    </figure>
   </section>
 
   <section class="section" aria-labelledby="services-title">
@@ -25,7 +33,46 @@
       <div class="service-grid">
         {% for service in services %}
           <article class="service-card">
-            <p class="service-number">{{ "%02d" | format(loop.index) }}</p>
+            <div class="service-card-topline">
+              <p class="service-number">{{ "%02d" | format(loop.index) }}</p>
+              <span class="service-icon{% if service.slug == 'diseno-de-piezas' %} service-icon-design{% elif service.slug == 'ingenieria-inversa' %} service-icon-gear{% endif %}" aria-hidden="true">
+                {% if service.slug == "impresion-3d" %}
+                  <svg viewBox="0 0 32 32"><path d="M8 4h16v6H8zM6 10h20v11h-4v7H10v-7H6zM11 15h10M13 20h6v5h-6z"/></svg>
+                {% elif service.slug == "diseno-de-piezas" %}
+                  <span class="cad-software-icons">
+                    <svg class="solidworks-logo" viewBox="0 0 54 54" role="img" aria-label="SOLIDWORKS">
+                      <path class="sw-top" d="m8 14 22-9 17 9-23 10z"/>
+                      <path class="sw-side" d="m8 14 16 10v25L8 39z"/>
+                      <path class="sw-front" d="m24 24 23-10v25L24 49z"/>
+                      <text x="35.5" y="33.5">SW</text>
+                    </svg>
+                    <svg class="autocad-logo" viewBox="0 0 54 54" role="img" aria-label="AutoCAD">
+                      <path class="acad-back" d="M13 11h29v32H13z"/>
+                      <path class="acad-fold" d="M6 17 13 11v32l-7 6z"/>
+                      <path class="acad-front" d="M13 8h34v34H13z"/>
+                      <text x="30" y="35">A</text>
+                    </svg>
+                  </span>
+                {% elif service.slug == "ingenieria-inversa" %}
+                  <svg class="flat-gear" viewBox="0 0 64 64">
+                    <g>
+                      <rect x="27" y="3" width="10" height="14" rx="2"/>
+                      <rect x="27" y="47" width="10" height="14" rx="2"/>
+                      <rect x="47" y="25" width="14" height="10" rx="2"/>
+                      <rect x="3" y="25" width="14" height="10" rx="2"/>
+                      <rect x="43" y="8" width="10" height="15" rx="2" transform="rotate(45 48 15.5)"/>
+                      <rect x="11" y="41" width="10" height="15" rx="2" transform="rotate(45 16 48.5)"/>
+                      <rect x="41" y="43" width="15" height="10" rx="2" transform="rotate(45 48.5 48)"/>
+                      <rect x="8" y="11" width="15" height="10" rx="2" transform="rotate(45 15.5 16)"/>
+                      <circle cx="32" cy="32" r="21"/>
+                    </g>
+                    <circle class="gear-hole" cx="32" cy="32" r="9"/>
+                  </svg>
+                {% else %}
+                  <svg viewBox="0 0 32 32"><path d="M7 17v-2a9 9 0 0 1 18 0v2M7 17H5v7h5v-7H7zm18 0h2v7h-5v-7h3zm0 7c0 3-2 4-5 4h-2M16 28h2"/></svg>
+                {% endif %}
+              </span>
+            </div>
             <h3>{{ service.name }}</h3>
             <p class="service-summary">{{ service.summary }}</p>
             <p>{{ service.description }}</p>
@@ -36,6 +83,150 @@
         {% endfor %}
       </div>
     {% endif %}
+  </section>
+
+  <section class="industries-section" aria-labelledby="industries-title">
+    <div class="industries-header">
+      <h2 id="industries-title" class="industries-badge">
+        Trabajamos para todo tipo de industrias y negocios
+      </h2>
+    </div>
+    <div class="industries-content">
+      <div class="floating-words" aria-hidden="true">
+        <span class="floating-word floating-word--xl" style="--x:2%; --y:4%; --duration:8.5s; --delay:0s;">Industria</span>
+        <span class="floating-word floating-word--sm" style="--x:27%; --y:2%; --duration:6.5s; --delay:.6s;">Refacciones</span>
+        <span class="floating-word floating-word--md" style="--x:53%; --y:7%; --duration:7.5s; --delay:1.2s;">Engranes</span>
+        <span class="floating-word floating-word--lg" style="--x:75%; --y:3%; --duration:9s; --delay:.3s;">Negocios</span>
+        <span class="floating-word floating-word--sm" style="--x:4%; --y:33%; --duration:7s; --delay:1.6s;">Muebles</span>
+        <span class="floating-word floating-word--lg" style="--x:29%; --y:27%; --duration:8s; --delay:.9s;">Hogar</span>
+        <span class="floating-word floating-word--md" style="--x:52%; --y:35%; --duration:6.8s; --delay:2s;">Prototipos</span>
+        <span class="floating-word floating-word--sm" style="--x:76%; --y:29%; --duration:7.8s; --delay:.4s;">Coples</span>
+        <span class="floating-word floating-word--xl" style="--x:2%; --y:57%; --duration:9.4s; --delay:1.1s;">Automotriz</span>
+        <span class="floating-word floating-word--sm" style="--x:28%; --y:61%; --duration:6.2s; --delay:1.8s;">Mangueras</span>
+        <span class="floating-word floating-word--md" style="--x:52%; --y:53%; --duration:7.2s; --delay:.2s;">Mecánica</span>
+        <span class="floating-word floating-word--md" style="--x:5%; --y:81%; --duration:8.2s; --delay:1.4s;">Diseños</span>
+        <span class="floating-word floating-word--sm" style="--x:48%; --y:83%; --duration:6.9s; --delay:.8s;">Electrónica</span>
+        <span class="floating-word floating-word--md" style="--x:72%; --y:77%; --duration:7.6s; --delay:2.1s;">Arquitectura</span>
+      </div>
+      <div class="industries-copy">
+        <p class="eyebrow">Versatilidad de fabricación</p>
+        <p>
+          Fabricamos piezas para fábricas, talleres, hogares y negocios: desde componentes
+          industriales, automotrices y mecánicos hasta muebles, coples, mangueras y piezas de
+          diseño. Si tu proyecto necesita una pieza funcional, la manufacturamos.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {% if featured_materials %}
+    <section class="material-showcase" aria-labelledby="featured-materials-title">
+      <header class="carousel-heading">
+        <div>
+          <p class="eyebrow">El material cambia el resultado</p>
+          <h2 id="featured-materials-title">Conoce qué podemos imprimir.</h2>
+          <p>Compara rápidamente el comportamiento de cada opción y elige según el uso de tu pieza.</p>
+        </div>
+        <div class="carousel-controls" aria-label="Controles del carrusel">
+          <button type="button" data-carousel-previous aria-label="Ver materiales anteriores">
+            <span aria-hidden="true">←</span>
+          </button>
+          <button type="button" data-carousel-next aria-label="Ver más materiales">
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="material-carousel" data-material-carousel tabindex="0"
+           aria-label="Materiales disponibles; desplázate horizontalmente para ver más">
+        {% for material in featured_materials %}
+          <article class="featured-material-card">
+            <img src="{{ url_for('static', path='Resources/' ~ material_images.get(material.slug, 'piezas-3d-funcionales.png')) }}"
+                 alt="Ejemplo de pieza impresa con {{ material.name }}"
+                 width="1456" height="1092" loading="lazy">
+            <div class="featured-material-content">
+              <div class="material-card-heading">
+                <h3>{{ material.name }}</h3>
+                <span>{{ "Disponible" if material.available else "Bajo pedido" }}</span>
+              </div>
+              <p>{{ material.description }}</p>
+              {% if material.advantages %}
+                <ul aria-label="Características principales">
+                  {% for advantage in material.advantages[:3] %}<li>{{ advantage }}</li>{% endfor %}
+                </ul>
+              {% endif %}
+              <a class="text-link" href="/materiales/{{ material.slug }}">
+                Ver ficha técnica <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+      <p class="carousel-hint">Desliza para explorar más materiales</p>
+    </section>
+  {% endif %}
+
+  <section class="engineering-story" aria-labelledby="engineering-title">
+    <img src="{{ url_for('static', path='Resources/piezas-3d-funcionales.png') }}"
+         alt="Piezas funcionales impresas en 3D: soporte, carcasa y engrane"
+         width="1536" height="1024" loading="lazy">
+    <div class="engineering-copy">
+      <p class="eyebrow">Piezas listas para trabajar</p>
+      <h2 id="engineering-title">La forma sigue a la función.</h2>
+      <p>
+        Revisamos geometría, material y uso final para convertir cada archivo en una pieza
+        fabricable, resistente y adecuada para su entorno.
+      </p>
+      <a class="text-link" href="/materiales">Explorar materiales <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <section class="project-showcase" aria-labelledby="projects-title">
+    <header class="carousel-heading project-heading">
+      <div>
+        <p class="eyebrow">Lo que podemos fabricar</p>
+        <h2 id="projects-title">Ejemplos de proyectos.</h2>
+        <p>Conceptos ilustrativos que muestran aplicaciones posibles. Serán reemplazados por casos reales conforme construyamos nuestro portafolio.</p>
+      </div>
+      <div class="carousel-controls" aria-label="Controles de ejemplos de proyectos">
+        <button type="button" data-project-previous aria-label="Ver ejemplos anteriores"><span aria-hidden="true">←</span></button>
+        <button type="button" data-project-next aria-label="Ver más ejemplos"><span aria-hidden="true">→</span></button>
+      </div>
+    </header>
+    <div class="project-carousel" data-project-carousel tabindex="0" aria-label="Ejemplos ilustrativos; desplázate horizontalmente para ver más">
+      {% set projects = [
+        ('proyecto-carcasa-electronica.png', 'Carcasa electrónica personalizada', 'PETG', 'Protección, ventilación y puntos de montaje adaptados al equipo.'),
+        ('proyecto-engranaje-refaccion.png', 'Refacción para mecanismo', 'Nylon (PA)', 'Reconstrucción de un engrane para recuperar un equipo sin refacción comercial.'),
+        ('proyecto-dispositivo-ensamble.png', 'Dispositivo de ensamble', 'PLA+ técnico', 'Soporte dedicado para posicionar componentes y repetir una operación.'),
+        ('proyecto-maqueta-industrial.png', 'Maqueta de instalación', 'PLA+', 'Modelo de presentación para revisar distribución y comunicar una propuesta.')
+      ] %}
+      {% for image, title, material, description in projects %}
+        <article class="project-card">
+          <figure>
+            <img src="{{ url_for('static', path='Resources/' ~ image) }}" alt="Ejemplo ilustrativo: {{ title }}" width="1456" height="1092" loading="lazy">
+            <figcaption>Ejemplo ilustrativo</figcaption>
+          </figure>
+          <div class="project-card-content"><p class="project-material">{{ material }}</p><h3>{{ title }}</h3><p>{{ description }}</p></div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="faq-section" aria-labelledby="faq-title">
+    <header><p class="eyebrow">Antes de cotizar</p><h2 id="faq-title">Preguntas frecuentes</h2><p>Lo esencial para enviar tu proyecto con confianza.</p></header>
+    <div class="faq-list">
+      <details><summary>¿Cuánto tarda una cotización?</summary><p>Revisamos cada solicitud de manera individual. Un asesor te contactará para confirmar factibilidad, costo y tiempo estimado de fabricación.</p></details>
+      <details><summary>¿Qué archivos puedo enviar?</summary><p>Actualmente aceptamos hasta 20 archivos STL por solicitud, con un máximo combinado de 500 MB.</p></details>
+      <details><summary>¿Pueden ayudarme si todavía no tengo un modelo 3D?</summary><p>Sí. Podemos evaluar tu idea, pieza física o necesidad para ofrecer diseño de piezas o ingeniería inversa.</p></details>
+      <details><summary>¿Cómo elijo el material correcto?</summary><p>Puedes consultar nuestra guía. Si tienes dudas, revisaremos el uso, esfuerzo, temperatura y acabado que requiere la pieza.</p></details>
+      <details><summary>¿Cómo se realiza el pago?</summary><p>El pago se acuerda directamente con el asesor después de aprobar la cotización; no se procesa dentro de esta plataforma.</p></details>
+      <details><summary>¿Qué sucede con mis archivos STL?</summary><p>Solo el administrador puede consultarlos. Los archivos válidos se conservan durante 30 días y después se eliminan.</p></details>
+    </div>
+  </section>
+
+  <section class="home-contact" aria-labelledby="home-contact-title">
+    <div><p class="eyebrow">Hablemos de tu proyecto</p><h2 id="home-contact-title">¿Necesitas orientación antes de cotizar?</h2><p>Estamos en Querétaro. Puedes escribirnos, llamar o consultar nuestra ubicación.</p></div>
+    <div class="home-contact-actions"><a class="button button-primary" href="/contacto">Ver información de contacto</a><a class="text-link" href="tel:+524422502743">442 250 2743</a></div>
   </section>
 
   <section class="closing-cta" aria-labelledby="closing-title">

@@ -5,18 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Servicios de impresión 3D y manufactura aditiva de 3D-Lab.">
     <title>{% block title %}3D-Lab{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='styles/base.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', path='styles/status.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', path='styles/responsive.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/base.css') }}?v=10">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/status.css') }}?v=3">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/responsive.css') }}?v=4">
     {% block head %}{% endblock %}
   </head>
-  <body>
+  <body class="{% block body_class %}{% endblock %}">
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="3D-Lab, inicio">3D-Lab</a>
+      <a class="brand" href="/" aria-label="3D-Lab, inicio">
+        <picture>
+          <source media="(max-width: 560px)" srcset="{{ url_for('static', path='Resources/logo-simbolo.png') }}">
+          <img src="{{ url_for('static', path='Resources/logo-horizontal.png') }}" alt="3D-Lab">
+        </picture>
+      </a>
       <nav aria-label="Navegación principal">
         <a href="/">Servicios</a>
         <a href="/materiales">Materiales</a>
+        <a href="/contacto">Contacto</a>
+        <a class="admin-link" href="/admin/login">Acceso administrativo</a>
         <a class="button button-primary" href="/cotizaciones/nueva">Solicitar cotización</a>
       </nav>
     </header>
@@ -24,9 +34,10 @@
       {% block content %}{% endblock %}
     </main>
     <footer class="site-footer">
-      <p>3D-Lab · Manufactura aditiva con acompañamiento técnico.</p>
+      <img class="footer-mark" src="{{ url_for('static', path='Resources/logo-simbolo.png') }}" alt="" aria-hidden="true">
+      <p>3D-Lab · Querétaro · <a href="tel:+524422502743">442 250 2743</a> · <a href="mailto:3dlabqro@gmail.com">3dlabqro@gmail.com</a></p>
     </footer>
-    <script src="{{ url_for('static', path='scripts/app.js') }}" defer></script>
+    <script src="{{ url_for('static', path='scripts/app.js') }}?v=5" defer></script>
     {% block scripts %}{% endblock %}
   </body>
 </html>

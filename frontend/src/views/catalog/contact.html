@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto | 3D-Lab{% endblock %}
+
+{% block content %}
+  <section class="contact-hero">
+    <p class="eyebrow">Contacto directo</p>
+    <h1>Conversemos sobre tu pieza.</h1>
+    <p>Cuéntanos qué necesitas fabricar. Te ayudaremos a definir material, proceso y siguiente paso.</p>
+  </section>
+  <section class="contact-layout" aria-label="Información de contacto">
+    <div class="contact-details">
+      <article><span>Ubicación</span><h2>3D-Lab Querétaro</h2><p>Cda. del Risco 1, Col. Piamonte, Querétaro, Qro.</p><a class="text-link" href="https://www.google.com/maps/search/?api=1&query=Cda+del+Risco+1,+Col+Piamonte,+Queretaro" target="_blank" rel="noopener noreferrer">Abrir en Google Maps →</a></article>
+      <article><span>Teléfono</span><h2><a href="tel:+524422502743">442 250 2743</a></h2><p>Para dudas rápidas sobre archivos, materiales y tiempos.</p></article>
+      <article><span>Correo</span><h2><a href="mailto:3dlabqro@gmail.com">3dlabqro@gmail.com</a></h2><p>Envíanos información general; los STL se cargan de forma segura desde la solicitud.</p></article>
+      <article><span>Atención</span><h2>Con cita previa</h2><p>Contáctanos antes de visitar para confirmar disponibilidad y horario.</p></article>
+    </div>
+    <div class="contact-map"><iframe title="Ubicación de 3D-Lab en Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Cda%20del%20Risco%201%2C%20Col%20Piamonte%2C%20Queretaro&output=embed"></iframe></div>
+  </section>
+  <section class="contact-cta"><div><p class="eyebrow">Atención personalizada</p><h2>La cotización comienza con una revisión técnica.</h2><p>Comparte tus archivos STL y los datos básicos de tu proyecto.</p></div><a class="button button-primary" href="/cotizaciones/nueva">Solicitar cotización</a></section>
+{% endblock %}

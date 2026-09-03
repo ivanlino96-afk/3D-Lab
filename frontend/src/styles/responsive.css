@@ -15,10 +15,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 
 @media (max-width: 560px) {
   .site-header { padding-inline: 1rem; }
+  .brand img { width: 42px; height: 42px; }
   .site-header nav { gap: .65rem 1rem; }
+  .site-header .admin-link { display: none; }
   .site-header nav .button { width: 100%; }
   .hero { min-height: auto; padding-block: 5rem; }
   .hero h1 { font-size: clamp(2.7rem, 15vw, 4.5rem); }
+  .home-page .hero h1 { font-size: clamp(2.35rem, 11vw, 3.35rem); }
   .status { padding: 1rem; }
   .submit-zone, .card-heading { align-items: stretch; flex-direction: column; }
   .upload-list li { grid-template-columns: 1.1rem minmax(0, 1fr); }
