@@ -10,6 +10,8 @@ def test_container_runs_migrations_as_non_root_and_keeps_stl_private() -> None:
     assert "PRIVATE_STORAGE_ROOT=/data/stl" in dockerfile
     assert "python -m alembic upgrade head" in dockerfile
     assert "uvicorn src.main:app" in dockerfile
+    assert "--proxy-headers" in dockerfile
+    assert "--forwarded-allow-ips='*'" in dockerfile
     assert "USER appuser" in dockerfile
     assert "PASSWORD=" not in dockerfile
     assert "DATABASE_URL=" not in dockerfile

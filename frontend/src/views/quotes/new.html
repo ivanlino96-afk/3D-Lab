@@ -2,7 +2,7 @@
 {% from "components/status.html" import render_status %}
 
 {% block title %}Solicitar cotización | 3D-Lab{% endblock %}
-{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/quotes.css') }}">{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='styles/quotes.css') }}?v=2">{% endblock %}
 
 {% block content %}
   <section class="quote-hero">
@@ -12,10 +12,11 @@
   </section>
 
   <section class="quote-layout">
+    <div class="quote-progress" aria-live="polite"><div><strong id="quote-progress-label">Paso 1 de 3 · Datos</strong><span id="quote-progress-value">33%</span></div><progress id="quote-progress" max="3" value="1">1 de 3</progress></div>
     <ol class="quote-steps" aria-label="Pasos de la solicitud">
-      <li><span>1</span><strong>Datos</strong><small>Cómo contactarte</small></li>
-      <li><span>2</span><strong>Archivos</strong><small>Hasta 20 STL y 500 MB</small></li>
-      <li><span>3</span><strong>Contexto</strong><small>Qué debe lograr la pieza</small></li>
+      <li data-step="1" class="is-current"><span>1</span><strong>Datos</strong><small>Cómo contactarte</small></li>
+      <li data-step="2"><span>2</span><strong>Archivos</strong><small>Hasta 20 STL y 500 MB</small></li>
+      <li data-step="3"><span>3</span><strong>Contexto</strong><small>Qué debe lograr la pieza</small></li>
     </ol>
 
     {{ render_status(message, 'quote-message') }}
@@ -70,6 +71,12 @@
           <label>Comentarios o requerimientos especiales<textarea name="comments" rows="5" maxlength="3000" placeholder="Uso de la pieza, carga, temperatura, acabado o fecha requerida."></textarea><small>No incluyas contraseñas ni información sensible.</small></label>
         </fieldset>
 
+        <aside class="quote-review" aria-labelledby="review-title">
+          <div><span>Resumen de la solicitud</span><h2 id="review-title">Revisa antes de enviar</h2></div>
+          <dl><div><dt>Contacto</dt><dd id="review-contact">Completa tus datos</dd></div><div><dt>Archivos</dt><dd id="review-files">Ningún STL válido</dd></div><div><dt>Proyecto</dt><dd id="review-context">Sin comentarios adicionales</dd></div></dl>
+          <p>Al enviar aceptas que usemos tus datos para responder la solicitud. Tus STL son privados y se eliminan después de 30 días. <a href="/privacidad" target="_blank">Consulta el aviso de privacidad</a>.</p>
+        </aside>
+
         <div class="submit-zone">
           <div><strong>Revisa antes de enviar</strong><p>Debes completar tus datos y tener al menos un STL válido.</p></div>
           <button class="button button-primary" id="submit-quote" type="submit" disabled>Enviar solicitud</button>
@@ -79,4 +86,4 @@
   </section>
 {% endblock %}
 
-{% block scripts %}<script src="{{ url_for('static', path='scripts/quote-upload.js') }}" defer></script>{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='scripts/quote-upload.js') }}?v=2" defer></script>{% endblock %}

@@ -74,6 +74,9 @@ def test_visitor_uploads_stl_and_confirms_quote_once(client, quote_http_environm
 
     assert form_page.status_code == 200
     assert "0 de 20 archivos" in form_page.text
+    assert 'id="quote-progress"' in form_page.text
+    assert "Resumen de la solicitud" in form_page.text
+    assert "Consulta el aviso de privacidad" in form_page.text
     assert upload.status_code == 201
     assert upload.json()["status"] == "valid"
     assert first.status_code == 201

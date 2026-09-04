@@ -7,6 +7,12 @@ const submitButton = document.querySelector("#submit-quote");
 const sessionToken = document.querySelector("#submission-token")?.value;
 const fileCount = document.querySelector("#file-count");
 const totalSize = document.querySelector("#total-size");
+const progressBar = document.querySelector("#quote-progress");
+const progressLabel = document.querySelector("#quote-progress-label");
+const progressValue = document.querySelector("#quote-progress-value");
+const reviewContact = document.querySelector("#review-contact");
+const reviewFiles = document.querySelector("#review-files");
+const reviewContext = document.querySelector("#review-context");
 const MAX_FILES = 20;
 const MAX_BYTES = 500 * 1024 * 1024;
 let submitting = false;
@@ -23,7 +29,31 @@ function refreshSummary() {
   if (fileCount) fileCount.textContent = `${rows.length} de ${MAX_FILES} archivos`;
   if (totalSize) totalSize.textContent = `${(bytes / 1024 / 1024).toFixed(1)} MB de 500 MB`;
   if (submitButton) submitButton.disabled = valid === 0 || pending || submitting;
+  refreshProgress(valid, bytes);
   return { count: rows.length, bytes };
+}
+
+function refreshProgress(validFiles = 0, bytes = 0) {
+  if (!form) return;
+  const name = form.elements.name?.value.trim() || "";
+  const email = form.elements.email?.value.trim() || "";
+  const phone = form.elements.phone?.value.trim() || "";
+  const comments = form.elements.comments?.value.trim() || "";
+  const contactComplete = [form.elements.name, form.elements.email, form.elements.phone]
+    .every((field) => field?.value.trim() && field.checkValidity());
+  const step = !contactComplete ? 1 : validFiles === 0 ? 2 : 3;
+  const labels = ["Datos", "Archivos", "Contexto"];
+  document.querySelectorAll(".quote-steps li").forEach((item) => {
+    const itemStep = Number(item.dataset.step);
+    item.classList.toggle("is-current", itemStep === step);
+    item.classList.toggle("is-complete", itemStep < step || (step === 3 && validFiles > 0));
+  });
+  if (progressBar) progressBar.value = step;
+  if (progressLabel) progressLabel.textContent = `Paso ${step} de 3 · ${labels[step - 1]}`;
+  if (progressValue) progressValue.textContent = `${Math.round((step / 3) * 100)}%`;
+  if (reviewContact) reviewContact.textContent = contactComplete ? `${name} · ${email} · ${phone}` : "Completa tus datos";
+  if (reviewFiles) reviewFiles.textContent = validFiles ? `${validFiles} STL válido${validFiles === 1 ? "" : "s"} · ${(bytes / 1024 / 1024).toFixed(1)} MB` : "Ningún STL válido";
+  if (reviewContext) reviewContext.textContent = comments ? (comments.length > 90 ? `${comments.slice(0, 90)}…` : comments) : "Sin comentarios adicionales";
 }
 
 function showUploadError(message) {
@@ -133,6 +163,10 @@ function addFiles(files) {
   let provisionalCount = summary.count;
   let provisionalBytes = summary.bytes;
   for (const file of files) {
+    if (!file.name.toLowerCase().endsWith(".stl")) {
+      showUploadError(`“${file.name}” no es un archivo STL.`);
+      continue;
+    }
     if (provisionalCount >= MAX_FILES) {
       showUploadError("Cada solicitud admite como máximo 20 archivos.");
       break;
@@ -148,6 +182,7 @@ function addFiles(files) {
 }
 
 fileInput?.addEventListener("change", () => addFiles([...fileInput.files]));
+form?.addEventListener("input", () => refreshSummary());
 buildPlate?.addEventListener("dragover", (event) => { event.preventDefault(); buildPlate.classList.add("is-dragging"); });
 buildPlate?.addEventListener("dragleave", () => buildPlate.classList.remove("is-dragging"));
 buildPlate?.addEventListener("drop", (event) => {

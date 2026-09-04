@@ -133,3 +133,13 @@ def service_catalog(
 @router.get("/contacto", response_class=HTMLResponse, name="contact")
 def contact(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(request=request, name="catalog/contact.html")
+
+
+@router.get("/privacidad", response_class=HTMLResponse, name="privacy_notice")
+def privacy_notice(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse(request=request, name="catalog/privacy.html")
+
+
+@router.get("/condiciones-servicio", response_class=HTMLResponse, name="service_terms")
+def service_terms(request: Request) -> HTMLResponse:
+    return templates.TemplateResponse(request=request, name="catalog/service_terms.html")

@@ -3,14 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Servicios de impresión 3D y manufactura aditiva de 3D-Lab.">
+    <meta name="description" content="{% block description %}Impresión 3D, diseño de piezas e ingeniería inversa en Querétaro. Solicita una cotización técnica con 3D-Lab.{% endblock %}">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:site_name" content="3D-Lab">
+    <meta property="og:title" content="{% block og_title %}3D-Lab | Impresión 3D en Querétaro{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Fabricación de prototipos, refacciones y piezas personalizadas con revisión técnica.{% endblock %}">
+    <meta property="og:image" content="{{ url_for('static', path='Resources/impresora-bambu-lab-hero-v2.png') }}">
     <title>{% block title %}3D-Lab{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,100..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', path='styles/base.css') }}?v=10">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/base.css') }}?v=16">
     <link rel="stylesheet" href="{{ url_for('static', path='styles/status.css') }}?v=3">
-    <link rel="stylesheet" href="{{ url_for('static', path='styles/responsive.css') }}?v=4">
+    <link rel="stylesheet" href="{{ url_for('static', path='styles/responsive.css') }}?v=15">
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"LocalBusiness","name":"3D-Lab","description":"Servicios de impresión 3D, diseño de piezas e ingeniería inversa.","telephone":"+52 442 250 2743","email":"3dlabqro@gmail.com","address":{"@type":"PostalAddress","streetAddress":"Cda. del Risco 1, Col. Piamonte","addressLocality":"Querétaro","addressRegion":"Querétaro","addressCountry":"MX"}}
+    </script>
     {% block head %}{% endblock %}
   </head>
   <body class="{% block body_class %}{% endblock %}">
@@ -22,22 +32,30 @@
           <img src="{{ url_for('static', path='Resources/logo-horizontal.png') }}" alt="3D-Lab">
         </picture>
       </a>
-      <nav aria-label="Navegación principal">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-navigation">
+        <span class="menu-toggle-lines" aria-hidden="true"></span>
+        <span class="menu-toggle-label">Menú</span>
+      </button>
+      <nav id="main-navigation" aria-label="Navegación principal">
         <a href="/">Servicios</a>
         <a href="/materiales">Materiales</a>
         <a href="/contacto">Contacto</a>
-        <a class="admin-link" href="/admin/login">Acceso administrativo</a>
+        <a class="admin-link" href="/admin/login">Login</a>
         <a class="button button-primary" href="/cotizaciones/nueva">Solicitar cotización</a>
       </nav>
     </header>
     <main id="contenido" tabindex="-1">
       {% block content %}{% endblock %}
     </main>
+    <a class="whatsapp-fab" href="https://wa.me/524422502743?text=Hola%203D-Lab%2C%20quiero%20informaci%C3%B3n%20sobre%20una%20pieza." target="_blank" rel="noopener noreferrer" aria-label="Consultar a 3D-Lab por WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.8 7L4 20l1.3-4.1A8 8 0 1 1 20 11.7Z"/><path d="M8.7 8.2c.2-.5.4-.5.7-.5h.4c.2 0 .4.1.5.4l.8 1.8c.1.3 0 .5-.2.7l-.6.7c-.2.2-.1.4 0 .6.5.9 1.2 1.6 2.1 2.1.2.1.4.2.6 0l.8-1c.2-.2.4-.3.7-.2l1.8.9c.3.1.4.3.4.5 0 .3-.1 1.4-.8 1.9-.6.5-1.4.7-2.2.5-1.2-.3-2.8-1-4.4-2.5-1.3-1.2-2.2-2.7-2.5-3.8-.4-1.1 0-1.7.2-2.1Z"/></svg>
+      <span>WhatsApp</span>
+    </a>
     <footer class="site-footer">
       <img class="footer-mark" src="{{ url_for('static', path='Resources/logo-simbolo.png') }}" alt="" aria-hidden="true">
-      <p>3D-Lab · Querétaro · <a href="tel:+524422502743">442 250 2743</a> · <a href="mailto:3dlabqro@gmail.com">3dlabqro@gmail.com</a></p>
+      <div><p>3D-Lab · Querétaro · <a href="tel:+524422502743">442 250 2743</a> · <a href="mailto:3dlabqro@gmail.com">3dlabqro@gmail.com</a></p><p class="footer-links"><a href="/privacidad">Aviso de privacidad</a><a href="/condiciones-servicio">Condiciones del servicio</a></p></div>
     </footer>
-    <script src="{{ url_for('static', path='scripts/app.js') }}?v=5" defer></script>
+    <script src="{{ url_for('static', path='scripts/app.js') }}?v=8" defer></script>
     {% block scripts %}{% endblock %}
   </body>
 </html>

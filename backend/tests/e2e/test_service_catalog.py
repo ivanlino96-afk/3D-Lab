@@ -74,6 +74,43 @@ def test_catalog_displays_published_services_and_quote_action(app, client) -> No
     assert "Ejemplo de pieza impresa con PLA+" in response.text
     assert 'data-material-carousel' in response.text
     assert 'class="service-icon"' in response.text
+    assert 'data-project-carousel' in response.text
+    assert 'data-material-position' in response.text
+    assert 'data-project-position' in response.text
+    assert "Ejemplos de proyectos" in response.text
+    assert "Preguntas frecuentes" in response.text
+    assert "Industria y automatización" in response.text
+    assert "Refacciones mecánicas" in response.text
+    assert "Consultar a 3D-Lab por WhatsApp" in response.text
+    assert "De tu archivo a una pieza terminada" in response.text
+    assert "Cotiza con claridad y confianza" in response.text
+    assert 'class="menu-toggle"' in response.text
+    assert "/contacto" in response.text
+
+
+@pytest.mark.e2e
+def test_contact_page_displays_direct_contact_information(client) -> None:
+    response = client.get("/contacto")
+
+    assert response.status_code == 200
+    assert "Cda. del Risco 1" in response.text
+    assert "442 250 2743" in response.text
+    assert "3dlabqro@gmail.com" in response.text
+    assert "Google Maps" in response.text
+    assert "WhatsApp" in response.text
+
+
+@pytest.mark.e2e
+def test_public_legal_pages_are_available(client) -> None:
+    privacy = client.get("/privacidad")
+    terms = client.get("/condiciones-servicio")
+
+    assert privacy.status_code == 200
+    assert "Aviso de privacidad" in privacy.text
+    assert "30 días" in privacy.text
+    assert terms.status_code == 200
+    assert "Condiciones del servicio" in terms.text
+    assert "no procesa pagos" in terms.text
 
 
 @pytest.mark.e2e

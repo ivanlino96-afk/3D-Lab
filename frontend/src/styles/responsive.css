@@ -14,14 +14,189 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 }
 
 @media (max-width: 560px) {
-  .site-header { padding-inline: 1rem; }
+  .site-header { position: sticky; align-items: center; padding: .75rem 1rem; }
   .brand img { width: 42px; height: 42px; }
-  .site-header nav { gap: .65rem 1rem; }
-  .site-header .admin-link { display: none; }
-  .site-header nav .button { width: 100%; }
+  .js .menu-toggle {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem .7rem;
+    color: var(--navy);
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: .8rem;
+    font-weight: 700;
+  }
+  .menu-toggle-lines, .menu-toggle-lines::before, .menu-toggle-lines::after { display: block; width: 15px; height: 1.5px; background: currentColor; content: ""; }
+  .menu-toggle-lines { position: relative; }
+  .menu-toggle-lines::before { position: absolute; top: -5px; }
+  .menu-toggle-lines::after { position: absolute; top: 5px; }
+  .site-header nav {
+    position: absolute;
+    top: calc(100% + .35rem);
+    right: 1rem;
+    left: 1rem;
+    display: flex;
+    width: auto;
+    align-items: stretch;
+    flex-direction: column;
+    gap: .2rem;
+    padding: .65rem;
+    background: rgb(255 255 255 / 98%);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .js .site-header nav { display: none; }
+  .js .site-header nav.is-open { display: flex; }
+  .site-header nav > a:not(.button), .site-header .admin-link { display: flex; padding: .7rem .8rem; font-size: .88rem; }
+  .site-header nav .button {
+    width: 100%;
+    min-height: 44px;
+    padding: .65rem .9rem;
+    font-size: .86rem;
+    white-space: nowrap;
+  }
   .hero { min-height: auto; padding-block: 5rem; }
   .hero h1 { font-size: clamp(2.7rem, 15vw, 4.5rem); }
-  .home-page .hero h1 { font-size: clamp(2.35rem, 11vw, 3.35rem); }
+  .home-page .hero {
+    grid-template-columns: minmax(0, 1.08fr) minmax(125px, .92fr);
+    align-items: center;
+    gap: .65rem;
+    padding: 3.5rem 0 3.5rem 1rem;
+  }
+  .home-page .hero-content { min-width: 0; }
+  .home-page .hero .eyebrow {
+    margin-bottom: .65rem;
+    font-size: .56rem;
+    line-height: 1.35;
+    letter-spacing: .1em;
+  }
+  .home-page .hero h1 {
+    max-width: none;
+    font-size: clamp(1.6rem, 7.5vw, 2.25rem);
+    line-height: .98;
+    letter-spacing: -.05em;
+  }
+  .home-page .hero-copy {
+    margin: 1rem 0 1.25rem;
+    font-size: .8rem;
+    line-height: 1.45;
+  }
+  .home-page .hero .button {
+    min-height: 40px;
+    padding: .55rem .8rem;
+    font-size: .74rem;
+    white-space: nowrap;
+  }
+  .home-page .hero-visual {
+    align-self: stretch;
+    min-height: 310px;
+    margin: 0;
+  }
+  .home-page .hero-visual img {
+    width: 100%;
+    height: 100%;
+    min-height: 310px;
+    border-radius: 1.25rem 0 0 1.25rem;
+    object-fit: cover;
+    object-position: 58% center;
+  }
+  .home-page .section {
+    padding: 3.5rem 1rem;
+  }
+  .home-page .section-heading {
+    margin-bottom: 1.5rem;
+  }
+  .home-page .section h2,
+  .project-heading h2,
+  .faq-section h2,
+  .home-contact h2,
+  .home-page .closing-cta h2,
+  .home-page .engineering-copy h2,
+  .carousel-heading h2 {
+    font-size: clamp(1.55rem, 7vw, 2rem);
+    line-height: 1.04;
+  }
+  .home-page p { font-size: .875rem; }
+  .home-page .eyebrow { font-size: .62rem; }
+  .service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .65rem;
+  }
+  .service-card {
+    min-width: 0;
+    padding: .9rem;
+    border-radius: 1rem;
+  }
+  .service-card-topline { gap: .4rem; }
+  .home-page .service-card h3 { font-size: .9rem; }
+  .service-card p { margin-block: .45rem; font-size: .75rem; line-height: 1.45; }
+  .service-number { font-size: .7rem !important; }
+  .service-icon { width: 2.1rem; height: 2.1rem; border-radius: .65rem; }
+  .service-icon svg { width: 1.15rem; height: 1.15rem; }
+  .service-icon-design { width: 4.25rem; }
+  .service-icon .cad-software-icons svg { width: 1.8rem; height: 1.8rem; }
+  .service-icon .flat-gear { width: 1.9rem; height: 1.9rem; }
+  .text-link { font-size: .75rem; }
+  .industries-section { padding: 3.5rem 1rem; }
+  .industries-header { margin-bottom: 1.75rem; }
+  .industries-badge { padding: .65rem 1.15rem; font-size: .9rem; }
+  .floating-words { min-height: 150px; transform: scale(.78); transform-origin: center; }
+  .industry-categories li { padding: .7rem .2rem; }
+  .industry-categories strong { font-size: .95rem; }
+  .industry-categories small { font-size: .72rem; line-height: 1.4; }
+  .industries-copy { margin-top: .75rem; }
+  .industries-copy > p:not(.eyebrow) { margin-top: .8rem; font-size: .84rem; }
+  .engineering-story {
+    gap: 1.25rem;
+    padding: 1rem 1rem 3.5rem;
+  }
+  .engineering-story > img { border-radius: 1rem; }
+  .engineering-copy > p:not(.eyebrow) { margin: .8rem 0; font-size: .84rem; }
+  .project-showcase { padding-block: 3.5rem; }
+  .carousel-heading { gap: 1rem; margin-bottom: 1.4rem; padding-inline: 1rem; }
+  .carousel-heading p:not(.eyebrow) { margin-top: .65rem; font-size: .82rem; }
+  .carousel-controls { gap: .45rem; }
+  .carousel-controls button { width: 38px; min-height: 38px; }
+  .carousel-position { min-width: 2.6rem; font-size: .68rem; }
+  .project-heading { margin-bottom: 1.25rem; }
+  .project-carousel { grid-auto-columns: 225px; gap: .75rem; padding-inline: 1rem; }
+  .project-card img { height: 125px; }
+  .project-card-content { padding: .75rem .8rem .9rem; }
+  .project-card-content h3 { font-size: .92rem; }
+  .project-card-content > p:last-child { font-size: .74rem; line-height: 1.45; }
+  .faq-section { gap: 1.25rem; padding: 3.5rem 1rem; }
+  .faq-list summary { padding: 1rem 2rem 1rem 0; font-size: .86rem; }
+  .faq-list summary::after { top: .78rem; font-size: 1.2rem; }
+  .faq-list details p { margin-bottom: 1rem; font-size: .78rem; }
+  .home-contact { gap: 1.25rem; padding: 2.5rem 1rem 3.5rem; }
+  .home-contact-actions { gap: .6rem; }
+  .home-contact .button,
+  .closing-cta .button { min-height: 40px; padding: .6rem .9rem; font-size: .78rem; }
+  .closing-cta { padding: 2.5rem 1.25rem; border-radius: 1.25rem; }
+  .closing-cta p { margin: .8rem auto 1.25rem; font-size: .82rem; }
+  .site-footer { padding: 2rem 1rem; font-size: .74rem; }
+  .process-section, .trust-section { padding: 3.5rem 1rem; }
+  .process-section .section-heading, .trust-section .section-heading { margin-bottom: 1.5rem; }
+  .process-steps, .trust-grid { grid-template-columns: 1fr 1fr; gap: .65rem; background: transparent; border: 0; }
+  .process-steps { overflow: visible; }
+  .process-steps li { min-height: 0; padding: 1rem; border: 1px solid var(--border); border-radius: 1rem; }
+  .process-steps h3 { margin: 1.25rem 0 .45rem; font-size: .9rem; }
+  .process-steps p, .trust-grid p { font-size: .75rem; line-height: 1.45; }
+  .trust-grid article { padding: 1rem; border-radius: 1rem; }
+  .trust-grid article > span { width: 2rem; height: 2rem; margin-bottom: .8rem; }
+  .trust-grid h3 { font-size: .88rem; }
+  .trust-note { font-size: .78rem; }
+  .footer-links { flex-wrap: wrap; gap: .35rem 1rem; }
+  .legal-page { padding: 4rem 1rem; }
+  .legal-page h1 { font-size: 2.25rem; }
+  .legal-page h2 { font-size: 1.05rem; }
+  .legal-page p, .legal-intro { font-size: .9rem; }
+  .whatsapp-fab { right: .8rem; bottom: .8rem; width: 48px; min-height: 48px; justify-content: center; padding: 0; }
+  .whatsapp-fab span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .status { padding: 1rem; }
   .submit-zone, .card-heading { align-items: stretch; flex-direction: column; }
   .upload-list li { grid-template-columns: 1.1rem minmax(0, 1fr); }
